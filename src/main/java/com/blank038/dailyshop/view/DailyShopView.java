@@ -7,10 +7,10 @@ import com.blank038.dailyshop.cacheframework.cache.CommodityCache;
 import com.blank038.dailyshop.cacheframework.cache.ViewCache;
 import com.blank038.dailyshop.cacheframework.manager.CacheManager;
 import com.blank038.dailyshop.cacheframework.storage.PlayerStorage;
+import com.blank038.dailyshop.util.TextUtil;
 import de.tr7zw.nbtapi.NBTItem;
 import de.tr7zw.nbtapi.utils.MinecraftVersion;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
@@ -99,10 +99,10 @@ public class DailyShopView {
                     itemStack.setDurability((short) section.getInt("data"));
                 }
 
-                itemMeta.setDisplayName(ChatColor.translateAlternateColorCodes('&', section.getString("name")));
+                itemMeta.setDisplayName(TextUtil.formatHexColor(section.getString("name")));
                 List<String> lore = new ArrayList<>();
                 for (String text : section.getStringList("lore")) {
-                    lore.add(ChatColor.translateAlternateColorCodes('&', text));
+                    lore.add(TextUtil.formatHexColor(text));
                 }
                 itemMeta.setLore(lore);
                 itemStack.setItemMeta(itemMeta);
