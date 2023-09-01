@@ -4,4 +4,15 @@ size: 9
 group: example
 commodity-slots: 4
 
-items: {}
+items:
+  example:
+    type: STONE
+    amount: 1
+    # data: 0
+    # custom-data: 0
+    name: "&f测试"
+    lore:
+      - "&a点击执行命令"
+    commands:
+      - "say abcd %player%"
+    slot: 0
