@@ -43,37 +43,44 @@ public class MainCommand implements CommandExecutor {
     }
 
     private void sendHelp(CommandSender sender) {
-        for (String text : main.getConfig().getStringList("message.help." + (sender.hasPermission("dayshop.admin") ? "admin" : "default"))) {
+        for (String text : main.getConfig().getStringList("message.help." + (sender.hasPermission("dailyshop.admin") ? "admin" : "default"))) {
             sender.sendMessage(text.replace("&", "§"));
         }
     }
 
     private void open(CommandSender sender, String[] args) {
-        if (!(sender instanceof Player)) {
-            return;
-        }
+        Player target = null;
         if (args.length == 1) {
             return;
         }
-        DailyShopView.open((Player) sender, args[1]);
+        if (args.length == 2) {
+            target = (Player) sender;
+        } else if (sender.hasPermission("dailyshop.open.control")) {
+            target = Bukkit.getPlayerExact(args[2]);
+        } else if (sender instanceof Player) {
+            target = (Player) sender;
+        }
+        if (target != null) {
+            DailyShopView.open(target, args[1]);
+        }
     }
 
     private void reload(CommandSender sender) {
-        if (sender.hasPermission("dayshop.admin")) {
+        if (sender.hasPermission("dailyshop.admin")) {
             this.main.loadConfig();
             sender.sendMessage(this.main.getString("message.reload", true));
         }
     }
 
     private void reset(CommandSender sender) {
-        if (sender.hasPermission("dayshop.admin")) {
+        if (sender.hasPermission("dailyshop.admin")) {
             CacheManager.getDayData().reset();
             sender.sendMessage(this.main.getString("message.reset", true));
         }
     }
 
     private void resetPlayer(CommandSender sender, String[] args) {
-        if (sender.hasPermission("dayshop.admin")) {
+        if (sender.hasPermission("dailyshop.admin")) {
             if (args.length == 1) {
                 sender.sendMessage(this.main.getString("message.pls-enter-player-name", true));
                 return;
