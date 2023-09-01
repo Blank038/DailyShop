@@ -1,0 +1,15 @@
+name: DailyShop
+main: com.blank038.dailyshop.DailyShop
+api-version: 1.13
+version: @version@
+depend:
+  - AyCore
+  - NBTAPI
+  - NyEconomy
+  - PlayerPoints
+  - Vault
+commands:
+  dailyshop:
+    aliases:
+      - ds
+    description: Command for DailyShop.

@@ -1,0 +1,33 @@
+# 例子
+example:
+  # 货币类型: Vault, PlayerPoints, NyEconomy货币名
+  type: "Vault"
+  # 默认价格
+  price: 100
+  # 折扣范围, 例如: 4-6, 就是随机 4折~6折
+  random: "4-6"
+  # 限购设置
+  limit:
+    # 是否开启限购
+    enable: true
+    # 个人限购次数
+    oneself: 1
+    # 区服限购次数
+    all: 10
+  # 物品设置
+  item:
+    id: STONE
+    data: 0
+    # customData: 0
+    amount: 1
+    name: "&b例子物品"
+    lore:
+      - "&f这是物品的lore"
+      - " "
+      - "&c今日折扣: &f%discount%折"
+      - "&c原价: &f%original%金币"
+      - "&c现价: &f%now%金币"
+      - "&c区服剩余: &f%amount%"
+  # 购买后执行的命令
+  commands:
+    - "broadcast 233333 %player%"

@@ -1,0 +1,54 @@
+import org.apache.tools.ant.filters.ReplaceTokens
+
+plugins {
+    id 'java'
+}
+
+version = "1.1.0-SNAPSHOT"
+group = "com.aiyostudio.dailyshop"
+archivesBaseName = "DailyShop"
+
+repositories {
+    mavenCentral()
+    maven {
+        name = "AyStudio-Repository"
+        url = "https://repo.mc9y.com/snapshots"
+    }
+    maven {
+        url = "https://oss.sonatype.org/content/repositories/snapshots"
+    }
+}
+
+sourceCompatibility = targetCompatibility = '1.8'
+compileJava {
+    sourceCompatibility = targetCompatibility = '1.8'
+}
+
+dependencies {
+    implementation(fileTree(dir: "libs", includes: ["*.jar"]))
+    implementation("org.spigotmc:spigot-api:1.16.5-R0.1-SNAPSHOT")
+    implementation("org.spigotmc:spigot:1.16.5-R0.1-SNAPSHOT")
+    implementation("org.bukkit:bukkit:1.16.5-R0.1-SNAPSHOT")
+    // AyCore
+    implementation("com.aystudio.core:AyCore:1.0.3-BETA")
+    // NBT Item
+    implementation("de.tr7zw:item-nbt-api-plugin:2.11.2")
+    // PlaceholderAPI
+    implementation('me.clip:placeholderapi:2.10.4')
+    // lombok
+    compileOnly("org.projectlombok:lombok:1.18.24")
+    annotationProcessor("org.projectlombok:lombok:1.18.24")
+}
+
+processResources {
+    setFilteringCharset("UTF-8")
+    from(sourceSets.main.resources.srcDirs) {
+        include '**/*.yml'
+        filter ReplaceTokens, tokens: ["version": project.property("version")]
+        duplicatesStrategy DuplicatesStrategy.INCLUDE
+    }
+}
+
+tasks.withType(JavaCompile) {
+    options.encoding = "UTF-8"
+}
