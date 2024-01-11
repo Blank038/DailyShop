@@ -70,9 +70,11 @@ public class DailyShopView {
             for (int i = 0; i < commodityEntries.size() && i < commoditiySlots.length; i++) {
                 PlayerStorage.CommodityEntry commodityEntry = commodityEntries.get(i);
                 CommodityCache commodityCache = CacheManager.getCommodityDataMap().get(commodityEntry.commodityId);
-                int amount = commodityCache.getAll() - CacheManager.getDayData().getDayCommoditys().getOrDefault(commodityEntry.commodityId, 0);
 
-                NBTItem nbtItem = new NBTItem(commodityCache.getDisplayItem(commodityEntry.discount, amount));
+                int amount = commodityCache.getAll() - CacheManager.getDayData().getDayCommoditys().getOrDefault(commodityEntry.commodityId, 0);
+                int oneself = commodityCache.getOneself() - playerStorage.getQuantityPurchased(commodityEntry.commodityId);
+
+                NBTItem nbtItem = new NBTItem(commodityCache.getDisplayItem(commodityEntry.discount, amount, oneself));
                 nbtItem.setString("CommodityGroup", viewCache.getGroupId());
                 nbtItem.setString("CommodityId", commodityEntry.commodityId);
 

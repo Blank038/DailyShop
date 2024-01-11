@@ -27,7 +27,8 @@ example:
       - "&c今日折扣: &f%discount%折"
       - "&c原价: &f%original%金币"
       - "&c现价: &f%now%金币"
-      - "&c区服剩余: &f%amount%"
+      - "&c个人限购: &f%oneself_current%&8/&f%oneself_max%"
+      - "&c区服剩余: &f%amount%&8/&f%all_max%"
   # 购买后执行的命令
   commands:
     - "broadcast 233333 %player%"

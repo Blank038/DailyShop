@@ -56,7 +56,7 @@ public class CommodityCache {
         commands = section.getStringList("commands");
     }
 
-    public ItemStack getDisplayItem(int discount, int amount) {
+    public ItemStack getDisplayItem(int discount, int amount, int oneself) {
         ItemStack itemStack = new ItemStack(Material.valueOf(this.itemType), this.amount);
         ItemMeta itemMeta = itemStack.getItemMeta();
         if (MinecraftVersion.isAtLeastVersion(MinecraftVersion.MC1_13_R1)) {
@@ -75,7 +75,10 @@ public class CommodityCache {
                     .replace("%discount%", String.valueOf(discount))
                     .replace("%now%", String.valueOf(now))
                     .replace("%original%", String.valueOf(price))
-                    .replace("%amount%", String.valueOf(amount)));
+                    .replace("%amount%", String.valueOf(amount))
+                    .replace("%all_max%", String.valueOf(this.all))
+                    .replace("%oneself_max%", String.valueOf(this.oneself))
+                    .replace("%onself_current%", String.valueOf(oneself)));
         }
         itemMeta.setLore(lore);
         itemStack.setItemMeta(itemMeta);
