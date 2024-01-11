@@ -41,7 +41,6 @@ public class CacheManager {
         DailyShop.getInstance().saveDefaultConfig();
         DailyShop.getInstance().reloadConfig();
 
-
         if (dayData != null) {
             dayData.save();
         }
@@ -82,7 +81,6 @@ public class CacheManager {
             CacheManager.GROUP_CACHE_MAP.put(groupId, new GroupCache(YamlConfiguration.loadConfiguration(file)));
         }
 
-
         DailyShop.getInstance().saveResource("time.yml", "time.yml", false,
                 (file) -> CacheManager.timeData = YamlConfiguration.loadConfiguration(file));
     }
@@ -116,6 +114,7 @@ public class CacheManager {
             File file = new File(folder, playerCache.getPlayerUniqueId() + ".yml");
             FileConfiguration data = playerCache.toConfiguration();
             try {
+                System.out.println(data.saveToString());
                 data.save(file);
             } catch (IOException e) {
                 DailyShop.getInstance().getLogger().severe(e.toString());

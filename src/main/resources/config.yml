@@ -9,7 +9,7 @@ message:
       - "&c每日折扣"
       - "&f/ds open <view> [玩家] &e查看今日折扣商品"
       - "&f/ds reset &e重置今日全服限购数"
-      - "&f/ds resetPlayer &e重置今日全服限购数"
+      - "&f/ds resetPlayer &e重置玩家今日商品"
       - "&f/ds reload &e重置插件配置文件"
   not-exist: "该商品不存在!"
   limit:

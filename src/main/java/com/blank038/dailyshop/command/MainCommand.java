@@ -3,6 +3,7 @@ package com.blank038.dailyshop.command;
 import com.blank038.dailyshop.DailyShop;
 import com.blank038.dailyshop.api.DailyShopApi;
 import com.blank038.dailyshop.cacheframework.manager.CacheManager;
+import com.blank038.dailyshop.util.TextUtil;
 import com.blank038.dailyshop.view.DailyShopView;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
@@ -44,7 +45,7 @@ public class MainCommand implements CommandExecutor {
 
     private void sendHelp(CommandSender sender) {
         for (String text : main.getConfig().getStringList("message.help." + (sender.hasPermission("dailyshop.admin") ? "admin" : "default"))) {
-            sender.sendMessage(text.replace("&", "§"));
+            sender.sendMessage(TextUtil.formatHexColor(text));
         }
     }
 

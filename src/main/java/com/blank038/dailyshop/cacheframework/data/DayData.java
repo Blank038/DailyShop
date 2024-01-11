@@ -70,8 +70,8 @@ public class DayData {
             if (EcoUtil.balance(player, commodityData.getPayType(), price, commodityData.getVaultName())) {
 
                 EcoUtil.take(player, commodityData.getPayType(), price, commodityData.getVaultName());
-
-                quantityPurchasedTotal.replace(commodityId, total + 1);
+                quantityPurchasedTotal.putIfAbsent(commodityId, 0);
+                quantityPurchasedTotal.compute(commodityId, (k, v) -> v + 1);
                 playerData.addQuantityPurchased(commodityId, 1);
 
                 commodityData.give(player);

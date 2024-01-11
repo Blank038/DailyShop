@@ -1,6 +1,7 @@
 package com.blank038.dailyshop.cacheframework.storage;
 
 import com.blank038.dailyshop.cacheframework.manager.CacheManager;
+import com.blank038.dailyshop.exception.ResetCommodityException;
 import lombok.Getter;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -39,6 +40,13 @@ public class PlayerStorage {
             });
         }
         this.resetTime = LocalDate.from(Instant.ofEpochMilli(data.getLong("resetTime")).atZone(ZoneId.systemDefault()));
+        // 读取商品每日限购数据
+        if (data.contains("quantityPurchased")) {
+            for (String key : data.getConfigurationSection("quantityPurchased").getKeys(false)) {
+                this.quantityPurchased.put(key, data.getInt("quantityPurchased." + key));
+            }
+        }
+        //
         this.checkResetDate();
     }
 
@@ -50,7 +58,7 @@ public class PlayerStorage {
         }
     }
 
-    public void resetCommodities() {
+    public void resetCommodities() throws ResetCommodityException {
         this.groupCache.clear();
         this.quantityPurchased.clear();
         CacheManager.getGroupCacheMap().forEach((key, value) -> {
@@ -61,18 +69,22 @@ public class PlayerStorage {
                 String random = clone.get((int) (Math.random() * clone.size()));
                 clone.remove(random);
 
-                CommodityEntry commodityEntry = new CommodityEntry();
-                commodityEntry.commodityId = random;
-                commodityEntry.discount = CacheManager.getCommodityDataMap().get(random).randomDiscount();
-                commodityEntries.add(commodityEntry);
+                try {
+                    CommodityEntry commodityEntry = new CommodityEntry();
+                    commodityEntry.commodityId = random;
+                    commodityEntry.discount = CacheManager.getCommodityDataMap().get(random).randomDiscount();
+                    commodityEntries.add(commodityEntry);
+                } catch (Exception e) {
+                    throw new ResetCommodityException("reset item " + random + " encountered an error.");
+                }
             }
             this.groupCache.put(key, commodityEntries);
         });
     }
 
     public void addQuantityPurchased(String commodityId, int amount) {
-        int count = this.quantityPurchased.getOrDefault(commodityId, 0);
-        this.quantityPurchased.put(commodityId, count + amount);
+        this.quantityPurchased.putIfAbsent(commodityId, 0);
+        this.quantityPurchased.compute(commodityId, (k, v) -> v + amount);
     }
 
     public int getQuantityPurchased(String commodityId) {
@@ -108,6 +120,7 @@ public class PlayerStorage {
                     .collect(Collectors.toList()));
         }
         data.set("resetTime", this.resetTime.atStartOfDay(ZoneOffset.UTC).toInstant().toEpochMilli());
+        this.quantityPurchased.forEach((k, v) -> data.set("quantityPurchased." + k, v));
         return data;
     }
 
