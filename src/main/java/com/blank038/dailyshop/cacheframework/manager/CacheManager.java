@@ -114,7 +114,6 @@ public class CacheManager {
             File file = new File(folder, playerCache.getPlayerUniqueId() + ".yml");
             FileConfiguration data = playerCache.toConfiguration();
             try {
-                System.out.println(data.saveToString());
                 data.save(file);
             } catch (IOException e) {
                 DailyShop.getInstance().getLogger().severe(e.toString());
