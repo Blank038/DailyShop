@@ -70,6 +70,10 @@ public class DailyShopView {
             for (int i = 0; i < commodityEntries.size() && i < commoditiySlots.length; i++) {
                 PlayerStorage.CommodityEntry commodityEntry = commodityEntries.get(i);
                 CommodityCache commodityCache = CacheManager.getCommodityDataMap().get(commodityEntry.commodityId);
+                if (commodityCache == null) {
+                    DailyShop.getInstance().getLogger().warning("请检查配置, 未能找到商品 " + commodityEntry.commodityId);
+                    continue;
+                }
 
                 int amount = commodityCache.getAll() - CacheManager.getDayData().getDayCommoditys().getOrDefault(commodityEntry.commodityId, 0);
                 int oneself = commodityCache.getOneself() - playerStorage.getQuantityPurchased(commodityEntry.commodityId);

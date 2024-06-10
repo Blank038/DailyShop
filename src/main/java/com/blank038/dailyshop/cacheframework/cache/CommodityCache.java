@@ -2,7 +2,6 @@ package com.blank038.dailyshop.cacheframework.cache;
 
 import com.blank038.dailyshop.enums.PayType;
 import com.blank038.dailyshop.util.TextUtil;
-import de.tr7zw.nbtapi.NBTItem;
 import de.tr7zw.nbtapi.utils.MinecraftVersion;
 import lombok.Getter;
 import org.bukkit.Bukkit;
@@ -78,7 +77,7 @@ public class CommodityCache {
                     .replace("%amount%", String.valueOf(amount))
                     .replace("%all_max%", String.valueOf(this.all))
                     .replace("%oneself_max%", String.valueOf(this.oneself))
-                    .replace("%onself_current%", String.valueOf(oneself)));
+                    .replace("%oneself_current%", String.valueOf(oneself)));
         }
         itemMeta.setLore(lore);
         itemStack.setItemMeta(itemMeta);
